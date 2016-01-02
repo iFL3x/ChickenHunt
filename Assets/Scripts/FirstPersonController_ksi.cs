@@ -67,7 +67,7 @@ namespace ChickenHunt.Scripts.FirstPerson
 			m_hold_fire_button = false;
 			m_reaload = false;
 			m_Animator = GetComponent<Animator>();
-			m_waepon_Animator = GameObject.Find("waepons").GetComponent<Animator>();
+			m_waepon_Animator = GameObject.Find("crossbow").GetComponent<Animator>();
 		}
 
 
@@ -202,12 +202,13 @@ namespace ChickenHunt.Scripts.FirstPerson
 		private void UpdateAnimator(){
 
 			m_Animator.SetBool("hold_attack_button",m_hold_fire_button);
-			m_Animator.SetBool("reload",m_reaload);
+
 		}
 
 		private void UpdateWaeponAnimator(){
 
 			m_waepon_Animator.SetBool("hold_attack_button",m_hold_fire_button);
+			m_waepon_Animator.SetBool("reload",m_reaload);
 
 		}
 

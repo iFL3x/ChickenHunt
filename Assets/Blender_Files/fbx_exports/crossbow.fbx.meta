@@ -1,0 +1,125 @@
+fileFormatVersion: 2
+guid: 9a36fe6477ee4384ca33e5c150e79bd1
+timeCreated: 1451691071
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Arrow_reload_bottom_left
+    100002: Arrow_reload_bottom_left_end
+    100004: Arrow_reload_bottom_right
+    100006: Arrow_reload_bottom_right_end
+    100008: Arrow_reload_top_left
+    100010: Arrow_reload_top_left_end
+    100012: Arrow_reload_top_right
+    100014: Arrow_reload_top_right_end
+    100016: arrow_spawn_bottom
+    100018: arrow_spawn_bottom_end
+    100020: arrow_spawn_top
+    100022: arrow_spawn_top_end
+    100024: Corssbow_armature
+    100026: Crossbow
+    100028: //RootNode
+    100030: Front
+    100032: Front_end
+    100034: Handel
+    100036: Snaper_bottom
+    100038: Snaper_bottom_end
+    100040: Snaper_top
+    100042: Snaper_top_end
+    100044: String
+    100046: String_end
+    400000: Arrow_reload_bottom_left
+    400002: Arrow_reload_bottom_left_end
+    400004: Arrow_reload_bottom_right
+    400006: Arrow_reload_bottom_right_end
+    400008: Arrow_reload_top_left
+    400010: Arrow_reload_top_left_end
+    400012: Arrow_reload_top_right
+    400014: Arrow_reload_top_right_end
+    400016: arrow_spawn_bottom
+    400018: arrow_spawn_bottom_end
+    400020: arrow_spawn_top
+    400022: arrow_spawn_top_end
+    400024: Corssbow_armature
+    400026: Crossbow
+    400028: //RootNode
+    400030: Front
+    400032: Front_end
+    400034: Handel
+    400036: Snaper_bottom
+    400038: Snaper_bottom_end
+    400040: Snaper_top
+    400042: Snaper_top_end
+    400044: String
+    400046: String_end
+    4300000: Crossbow
+    7400000: Corssbow_armature|Fire
+    7400002: Corssbow_armature|Idle
+    7400004: Corssbow_armature|Reload
+    9500000: //RootNode
+    13700000: Crossbow
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
