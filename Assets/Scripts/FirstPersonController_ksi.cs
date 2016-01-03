@@ -63,6 +63,8 @@ namespace ChickenHunt.Scripts.FirstPerson
 		private bool m_hold_fire_button;
 		private bool m_reaload;
 
+        //Mouse look disable option
+        public bool MouseLookEnabled;
 
 		// Use this for initialization
 		private void Start()
@@ -91,7 +93,10 @@ namespace ChickenHunt.Scripts.FirstPerson
 		private void Update()
 		{
 
-			RotateView();
+            if (MouseLookEnabled)
+            {
+                RotateView();
+            }
 			// the jump state needs to read here to make sure it is not missed
 			if (!m_Jump)
 			{

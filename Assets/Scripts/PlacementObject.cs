@@ -65,7 +65,7 @@ public class PlacementObject : MonoBehaviour
 
     }
 
-    void OnTriggerEnter(Collider col)
+    void OnCollisionEnter(Collision col)
     {
         if (objectPlaced)
         {
@@ -78,9 +78,12 @@ public class PlacementObject : MonoBehaviour
         }
     }
 
-    void OnTriggerExit()
+    void OnCollisionExit(Collision col)
     {
-        SetPlaceValid(true);
+        if (col.transform.CompareTag("PlacementObject"))
+        {
+            SetPlaceValid(true);
+        }
     }
 
     private void SetPlaceValid(bool state)
