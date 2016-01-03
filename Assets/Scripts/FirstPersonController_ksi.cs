@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
@@ -29,6 +30,8 @@ namespace ChickenHunt.Scripts.FirstPerson
 		[SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
 		[SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
 
+
+
 		private Camera m_Camera;
 		private bool m_Jump;
 		private float m_YRotation;
@@ -42,6 +45,16 @@ namespace ChickenHunt.Scripts.FirstPerson
 		private AudioSource m_AudioSource;
 		private Animator m_Animator;
 		private Animator m_waepon_Animator;
+		private GameObject m_crossbow;
+		private Transform m_arrow_spawn_position_top;
+		private Transform m_arrow_spawn_position_bottom;
+
+		//External
+		public GameObject arrow;
+		public int arrow_speed;
+
+		private GameObject arrow_1;
+		private GameObject arrow_2;
 
 		//Variables for ingame states
 		private float m_StepCycle;
@@ -67,7 +80,10 @@ namespace ChickenHunt.Scripts.FirstPerson
 			m_hold_fire_button = false;
 			m_reaload = false;
 			m_Animator = GetComponent<Animator>();
+			m_crossbow = GameObject.Find("crossbow");
 			m_waepon_Animator = GameObject.Find("crossbow").GetComponent<Animator>();
+			m_arrow_spawn_position_top = GameObject.Find("arrow_spawn_top").transform;
+			m_arrow_spawn_position_bottom = GameObject.Find("arrow_spawn_bottom").transform;
 		}
 
 
@@ -209,7 +225,9 @@ namespace ChickenHunt.Scripts.FirstPerson
 
 			m_waepon_Animator.SetBool("hold_attack_button",m_hold_fire_button);
 			m_waepon_Animator.SetBool("reload",m_reaload);
-
+			if(m_reaload == true){
+				reload();
+			}
 		}
 
 		private void UpdateCameraPosition(float speed)
@@ -235,6 +253,46 @@ namespace ChickenHunt.Scripts.FirstPerson
 			m_Camera.transform.localPosition = newCameraPosition;
 		}
 
+		private void fireArrows(){
+			if(arrow_1 != null && arrow_2 != null){
+				print("fire");
+				//First Arrow
+				arrow_1.transform.parent = null;
+				MeshCollider collider1 = arrow_1.GetComponent<MeshCollider>();
+				collider1.enabled = true;
+				Rigidbody r1 = arrow_1.GetComponent<Rigidbody>();
+				r1.AddForce(m_crossbow.transform.forward *- arrow_speed);
+				//r1.velocity = m_crossbow.transform.forward *- arrow_speed;
+				r1.useGravity = true;
+				arrow_1 = null;
+
+				//Second Arrow
+				arrow_2.transform.parent = null;
+				MeshCollider collider2 = arrow_2.GetComponent<MeshCollider>();
+				collider2.enabled = true;
+				Rigidbody r2 = arrow_2.GetComponent<Rigidbody>();
+				r2.AddForce(m_crossbow.transform.forward *- arrow_speed);
+				//r2.velocity = m_crossbow.transform.forward *- arrow_speed;
+				r2.useGravity = true;
+				arrow_2 = null;
+			}
+		}
+
+		private void reload(){
+			//Just spawn arrows when there are none others
+			if(arrow_1 == null && arrow_2 == null){
+				print("reload");
+				arrow_1 = (GameObject) Instantiate(arrow,m_arrow_spawn_position_top.position,m_arrow_spawn_position_top.rotation);
+				arrow_1.transform.SetParent(m_arrow_spawn_position_top);
+				arrow_1.transform.Rotate(new Vector3(0,90));
+				arrow_1.transform.localPosition = new Vector3(arrow_1.transform.localPosition.x,arrow_1.transform.localPosition.y + 0.05f ,arrow_1.transform.localPosition.z - 1f);
+
+				arrow_2 = (GameObject) Instantiate(arrow,m_arrow_spawn_position_bottom.position,m_arrow_spawn_position_bottom.rotation);
+				arrow_2.transform.SetParent(m_arrow_spawn_position_bottom);
+				arrow_2.transform.Rotate(new Vector3(0,-90));
+				arrow_2.transform.localPosition = new Vector3(arrow_2.transform.localPosition.x,arrow_2.transform.localPosition.y + 0.05f  ,arrow_2.transform.localPosition.z + 1f);
+			}
+		}
 
 		private void GetInput(out float speed)
 		{
@@ -243,6 +301,11 @@ namespace ChickenHunt.Scripts.FirstPerson
 			float vertical = CrossPlatformInputManager.GetAxis("Vertical");
 			//TODO Use CrossPlatformInputManager
 			m_hold_fire_button = Input.GetMouseButton(0);
+
+			if(m_hold_fire_button == true){
+				fireArrows();
+			}
+
 			m_reaload = Input.GetKeyDown(KeyCode.R);
 
 			bool waswalking = m_IsWalking;
