@@ -61,6 +61,7 @@ public class PlacementObject : MonoBehaviour
             objectPlaced = true;
             Destroy(placementObjectValidator.gameObject);
             placement.placingObject = false;
+			Destroy(GetComponent<Rigidbody>());
         }
 
     }
