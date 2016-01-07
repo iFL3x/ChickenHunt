@@ -49,12 +49,15 @@ namespace ChickenHunt.Scripts.FirstPerson
 		private Transform m_arrow_spawn_position_top;
 		private Transform m_arrow_spawn_position_bottom;
 
-		//External
+		//External setable
 		public GameObject arrow;
 		public int arrow_speed;
 
 		private GameObject arrow_1;
 		private GameObject arrow_2;
+
+        public int amunition;
+        public int health;
 
 		//Variables for ingame states
 		private float m_StepCycle;
@@ -117,8 +120,9 @@ namespace ChickenHunt.Scripts.FirstPerson
 
 			m_PreviouslyGrounded = m_CharacterController.isGrounded;
 
-
-		}
+            UpdateAnimator();
+            UpdateWaeponAnimator();
+        }
 
 
 		private void PlayLandingSound()
@@ -135,8 +139,7 @@ namespace ChickenHunt.Scripts.FirstPerson
 
 		private void FixedUpdate()
 		{
-			UpdateAnimator();
-			UpdateWaeponAnimator();
+
 			float speed;
 			GetInput(out speed);
 			// always move along the camera forward as it is the direction that it being aimed at
@@ -258,6 +261,14 @@ namespace ChickenHunt.Scripts.FirstPerson
 			m_Camera.transform.localPosition = newCameraPosition;
 		}
 
+        //Set the new arrow type but only when there is a Arrow_Projectile script.
+        private void switchArrowType(GameObject arrowType)
+        {
+            if (arrowType.GetComponent<Arrow_projectile>() != null){
+                arrow = arrowType;
+            }
+        }
+
 		private void fireArrows(){
 			if(arrow_1 != null && arrow_2 != null){
 				print("fire");
@@ -283,9 +294,10 @@ namespace ChickenHunt.Scripts.FirstPerson
 			}
 		}
 
+
 		private void reload(){
 			//Just spawn arrows when there are none others
-			if(arrow_1 == null && arrow_2 == null){
+			if(arrow_1 == null && arrow_2 == null && amunition > 0){
 				print("reload");
 				arrow_1 = (GameObject) Instantiate(arrow,m_arrow_spawn_position_top.position,m_arrow_spawn_position_top.rotation);
 				arrow_1.transform.SetParent(m_arrow_spawn_position_top);
@@ -296,6 +308,8 @@ namespace ChickenHunt.Scripts.FirstPerson
 				arrow_2.transform.SetParent(m_arrow_spawn_position_bottom);
 				arrow_2.transform.Rotate(new Vector3(0,-90));
 				arrow_2.transform.localPosition = new Vector3(arrow_2.transform.localPosition.x,arrow_2.transform.localPosition.y + 0.05f  ,arrow_2.transform.localPosition.z + 1f);
+
+                amunition -= 2;
 			}
 		}
 
@@ -306,6 +320,17 @@ namespace ChickenHunt.Scripts.FirstPerson
 			float vertical = CrossPlatformInputManager.GetAxis("Vertical");
 			//TODO Use CrossPlatformInputManager
 			m_hold_fire_button = Input.GetMouseButton(0);
+
+            bool arrowTypeSwitch = false;
+
+            //Get the choosen arrow type
+            Input.GetKeyDown(KeyCode.Alpha1);
+            if (arrowTypeSwitch)
+            {
+                switchArrowType(arrow);
+            }
+
+
 
 			if(m_hold_fire_button == true){
 				fireArrows();
@@ -361,5 +386,13 @@ namespace ChickenHunt.Scripts.FirstPerson
 			}
 			body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
 		}
-	}
+
+        //Refils the ammo
+        public void refillArrows(int ammoCount)
+        {
+            this.amunition += ammoCount;
+        }
+    }
+
+
 }
