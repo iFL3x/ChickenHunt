@@ -50,7 +50,8 @@ namespace ChickenHunt.Scripts.FirstPerson
 		private Transform m_arrow_spawn_position_bottom;
 
 		//External setable
-		public GameObject arrow;
+		public GameObject[] arrows;
+
 		public int arrow_speed;
 
 		private GameObject arrow_1;
@@ -65,6 +66,7 @@ namespace ChickenHunt.Scripts.FirstPerson
 		private bool m_Jumping;
 		private bool m_hold_fire_button;
 		private bool m_reaload;
+		private int m_arrow_typ_selected = 0;
 
         //Mouse look disable option
         public bool MouseLookEnabled;
@@ -262,16 +264,16 @@ namespace ChickenHunt.Scripts.FirstPerson
 		}
 
         //Set the new arrow type but only when there is a Arrow_Projectile script.
-        private void switchArrowType(GameObject arrowType)
+		private void switchArrowType(int arrow_index)
         {
-            if (arrowType.GetComponent<Arrow_projectile>() != null){
-                arrow = arrowType;
-            }
+            
+		  m_arrow_typ_selected = arrow_index;
+            
         }
 
 		private void fireArrows(){
 			if(arrow_1 != null && arrow_2 != null){
-				print("fire");
+				Debug.Log("Player: " + this.GetInstanceID().ToString() + " is fireing." );
 				//First Arrow
 				arrow_1.transform.parent = null;
 				MeshCollider collider1 = arrow_1.GetComponent<MeshCollider>();
@@ -298,13 +300,13 @@ namespace ChickenHunt.Scripts.FirstPerson
 		private void reload(){
 			//Just spawn arrows when there are none others
 			if(arrow_1 == null && arrow_2 == null && amunition > 0){
-				print("reload");
-				arrow_1 = (GameObject) Instantiate(arrow,m_arrow_spawn_position_top.position,m_arrow_spawn_position_top.rotation);
+				Debug.Log("Player: " + this.GetInstanceID().ToString() + " is reloading." );
+				arrow_1 = (GameObject) Instantiate(arrows[m_arrow_typ_selected],m_arrow_spawn_position_top.position,m_arrow_spawn_position_top.rotation);
 				arrow_1.transform.SetParent(m_arrow_spawn_position_top);
 				arrow_1.transform.Rotate(new Vector3(0,90));
 				arrow_1.transform.localPosition = new Vector3(arrow_1.transform.localPosition.x,arrow_1.transform.localPosition.y + 0.05f ,arrow_1.transform.localPosition.z - 1f);
 
-				arrow_2 = (GameObject) Instantiate(arrow,m_arrow_spawn_position_bottom.position,m_arrow_spawn_position_bottom.rotation);
+				arrow_2 = (GameObject) Instantiate(arrows[m_arrow_typ_selected],m_arrow_spawn_position_bottom.position,m_arrow_spawn_position_bottom.rotation);
 				arrow_2.transform.SetParent(m_arrow_spawn_position_bottom);
 				arrow_2.transform.Rotate(new Vector3(0,-90));
 				arrow_2.transform.localPosition = new Vector3(arrow_2.transform.localPosition.x,arrow_2.transform.localPosition.y + 0.05f  ,arrow_2.transform.localPosition.z + 1f);
@@ -323,14 +325,7 @@ namespace ChickenHunt.Scripts.FirstPerson
 
             bool arrowTypeSwitch = false;
 
-            //Get the choosen arrow type
-            Input.GetKeyDown(KeyCode.Alpha1);
-            if (arrowTypeSwitch)
-            {
-                switchArrowType(arrow);
-            }
-
-
+			setSelectedArrowTyp();
 
 			if(m_hold_fire_button == true){
 				fireArrows();
@@ -364,6 +359,49 @@ namespace ChickenHunt.Scripts.FirstPerson
 			}
 		}
 
+		public void setSelectedArrowTyp(){
+
+			//Get the choosen arrow type
+			bool arrowTypeSwitch = Input.GetKeyDown(KeyCode.Alpha1);
+			if (arrowTypeSwitch)
+			{
+				switchArrowType(0);
+			}
+			//Get the choosen arrow type
+			arrowTypeSwitch = Input.GetKeyDown(KeyCode.Alpha2);
+			if (arrowTypeSwitch)
+			{
+				switchArrowType(1);
+			}
+			//Get the choosen arrow type
+			arrowTypeSwitch = Input.GetKeyDown(KeyCode.Alpha3);
+			if (arrowTypeSwitch)
+			{
+				switchArrowType(2);
+			}
+			//Get the choosen arrow type
+			arrowTypeSwitch = Input.GetKeyDown(KeyCode.Alpha4);
+			if (arrowTypeSwitch)
+			{
+				switchArrowType(3);
+			}
+
+		}
+
+		//Methode for give the player a certant amount of damage. If the players health is below 0, the die methode will be called.
+		//Also returns the current health.
+		public int takeDamage(int damge){
+			health -= damge;
+			if(health <= 0){
+				die();
+			}
+			return health;
+		}
+
+		//Let the Player die.
+		public void die(){
+			Destroy(this.gameObject);
+		}
 
 		private void RotateView()
 		{

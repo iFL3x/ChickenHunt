@@ -1,27 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+/**
+ * This script is attached to an arrow projectile.
+ * Every arrow needs a Rigidbody with default:
+ * gravity = false
+ * kinematic = false
+ * mass = 0,1
+ * 
+ * And a mesh collider witch is not active at first.
+ * 
+ * 
+ **/
 public class Arrow_projectile : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	public int destory_delay = 3;
 
+
+	//Remove object after a certant delay.
+	void destoryAfterHit(int delay){
+		Destroy(this.gameObject,destory_delay);
+	}
 
 
 	void OnCollisionEnter(Collision col){
-			print("Collision");
-
+		Debug.Log("Arrow hit: " +col.gameObject.name +".");
+		//Pin the object to the one it's hitting.
 		this.transform.parent = col.transform;
 		this.transform.localPosition = col.transform.InverseTransformPoint(col.contacts[0].point);
-
+		//Remove Physic objects and start the destroy countdown
 		Destroy(this.GetComponent<Rigidbody>());
 		Destroy(this.GetComponent<MeshCollider>());
-			
+		destoryAfterHit(destory_delay);
 	}
 }

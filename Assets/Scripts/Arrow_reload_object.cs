@@ -7,26 +7,15 @@ public class Arrow_reload_object : MonoBehaviour {
 
     public int ammo_count;
 
-    // Use this for initialization
-    void Start() {
+	//Give ammo to the player and destory itself.
+	void OnTriggerEnter(Collider col){
+		//Only A Player can get Ammo
+		if(col.transform.tag == "Player")
+		{
+			GameObject playerObject = col.gameObject;
+			playerObject.GetComponent<FirstPersonController_ksi>().refillArrows(ammo_count);
+			Destroy(this.gameObject);
 
-    }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
-
-    //Fills the ammo count of the Player how picks the item up.
-    void OnCollisionEnter(Collision col)
-    {
-
-        if(col.transform.tag == "Player")
-        {
-            GameObject playerObject = col.gameObject;
-            playerObject.GetComponent<FirstPersonController_ksi>().refillArrows(ammo_count);
-            Destroy(this.gameObject);
-
-        }
-    }
+		}
+	}
 }
