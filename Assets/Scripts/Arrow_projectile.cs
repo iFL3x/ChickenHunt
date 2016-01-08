@@ -16,11 +16,13 @@ using System.Collections;
 public class Arrow_projectile : MonoBehaviour {
 
 	public int destory_delay = 3;
+	public GameObject spawnEffect;
 
+	private GameObject effect;
 
 	//Remove object after a certant delay.
-	void destoryAfterHit(int delay){
-		Destroy(this.gameObject,destory_delay);
+	void destoryAfterHit(GameObject go){
+		Destroy(go,destory_delay);
 	}
 
 
@@ -32,6 +34,15 @@ public class Arrow_projectile : MonoBehaviour {
 		//Remove Physic objects and start the destroy countdown
 		Destroy(this.GetComponent<Rigidbody>());
 		Destroy(this.GetComponent<MeshCollider>());
-		destoryAfterHit(destory_delay);
+		destoryAfterHit(this.gameObject);
+
+		//Spawns the effect only on the ground
+		if(col.transform.tag == "Ground"){
+			//Spawns a effect from an arrow
+			if(spawnEffect != null){
+				effect = (GameObject) Instantiate(spawnEffect,this.transform.position,new Quaternion(0,180,180,0));
+				destoryAfterHit(effect);
+			}
+		}
 	}
 }

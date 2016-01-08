@@ -323,8 +323,6 @@ namespace ChickenHunt.Scripts.FirstPerson
 			//TODO Use CrossPlatformInputManager
 			m_hold_fire_button = Input.GetMouseButton(0);
 
-            bool arrowTypeSwitch = false;
-
 			setSelectedArrowTyp();
 
 			if(m_hold_fire_button == true){
@@ -430,6 +428,17 @@ namespace ChickenHunt.Scripts.FirstPerson
         {
             this.amunition += ammoCount;
         }
+
+		//Reduces the players walk and run speed.
+		public void reduceWalkSpeed(int reduceModifier){
+			m_WalkSpeed = m_WalkSpeed / reduceModifier;
+			m_RunSpeed = m_RunSpeed / reduceModifier;
+		}
+		//Increase the walk and run speed.
+		public void increaseWalkSpeed(int multiplyModifier){
+			m_WalkSpeed = m_WalkSpeed * multiplyModifier;
+			m_RunSpeed = m_RunSpeed * multiplyModifier;
+		}
     }
 
 
