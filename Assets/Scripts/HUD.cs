@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using ChickenHunt.Scripts.FirstPerson;
 
-public class UIManager : MonoBehaviour {
+public class HUD : MonoBehaviour {
 
     public Text amunition_panel;
 	public Text health_panel;
@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        player = GetComponent<FirstPersonController_ksi>();
+        player = GameObject.Find("Player").GetComponent<FirstPersonController_ksi>();
 	}
 	
 	// Update is called once per frame

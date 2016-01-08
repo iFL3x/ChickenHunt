@@ -16,16 +16,14 @@ public class PlacementObject : MonoBehaviour
     private float maxHeight = 50f;
     private float minHeight = 0f;
 
-    private Transform placementObjectValidator;
     private Placement placement;
 
     void Start()
     {
+        colorValid = GetComponent<Renderer>().material.color;
         if (!objectPlaced)
         {
             placement = GameObject.Find("PlacementObject").GetComponent<Placement>();
-            placementObjectValidator = transform.Find("PlacementObjectValidator");
-            placementObjectValidator.GetComponent<Renderer>().material.color = colorValid;
         }
 
     }
@@ -59,9 +57,7 @@ public class PlacementObject : MonoBehaviour
         {
             transform.parent = null;
             objectPlaced = true;
-            Destroy(placementObjectValidator.gameObject);
             placement.placingObject = false;
-			Destroy(GetComponent<Rigidbody>());
         }
 
     }
@@ -73,7 +69,7 @@ public class PlacementObject : MonoBehaviour
             return;
         }
 
-        if (col.transform.CompareTag("PlacementObject"))
+        if (col.gameObject.layer == LayerMask.NameToLayer("Placement"))
         {
             SetPlaceValid(false);
         }
@@ -81,7 +77,7 @@ public class PlacementObject : MonoBehaviour
 
     void OnCollisionExit(Collision col)
     {
-        if (col.transform.CompareTag("PlacementObject"))
+        if (col.gameObject.layer == LayerMask.NameToLayer("Placement"))
         {
             SetPlaceValid(true);
         }
@@ -92,11 +88,11 @@ public class PlacementObject : MonoBehaviour
         placeValid = state;
         if (placeValid)
         {
-            placementObjectValidator.GetComponent<Renderer>().material.color = colorValid;
+            GetComponent<Renderer>().material.color = colorValid;
         }
         else
         {
-            placementObjectValidator.GetComponent<Renderer>().material.color = colorNotValid;
+            GetComponent<Renderer>().material.color = colorNotValid;
         }
     }
 }
